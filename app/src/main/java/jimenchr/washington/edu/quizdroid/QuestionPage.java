@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 
 
 public class QuestionPage extends ActionBarActivity {
@@ -26,17 +27,19 @@ public class QuestionPage extends ActionBarActivity {
         RadioButton radio2 = (RadioButton) findViewById(R.id.radio2);
         RadioButton radio3 = (RadioButton) findViewById(R.id.radio3);
         RadioButton radio4 = (RadioButton) findViewById(R.id.radio4);
+        TextView question = (TextView) findViewById(R.id.textView5);
 
-        int j = initialCount - count;
-        String radio1Question = questions[(j * 4) + 1];
+        int j = (initialCount - count);
+        question.setText(questions[(j * 6) + 0]);
+        String radio1Question = questions[(j * 6) + 1];
         radio1.setText(radio1Question);
-        String radio2Question = questions[(j * 4) + 2];
+        String radio2Question = questions[(j * 6) + 2];
         radio2.setText(radio2Question);
-        String radio3Question = questions[(j * 4) + 3];
+        String radio3Question = questions[(j * 6) + 3];
         radio3.setText(radio3Question);
-        String radio4Question = questions[(j * 4) + 4];
+        String radio4Question = questions[(j * 6) + 4];
         radio4.setText(radio4Question);
-        final String correctAnswer = questions[(j * 4) + 5];
+        final String correctAnswer = questions[(j * 6) + 5];
         count--;
 
         final RadioGroup rg = (RadioGroup) findViewById(R.id.radioGroup);

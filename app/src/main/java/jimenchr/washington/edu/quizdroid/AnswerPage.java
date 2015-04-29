@@ -22,8 +22,8 @@ public class AnswerPage extends ActionBarActivity {
         final int initialCount = extras.getInt("initialCount");
         int total = extras.getInt("total");
         boolean correct = extras.getBoolean("correct");
-        int j = initialCount - count + 1;
-        final String correctAnswer = questions[(j * 4) + 5];
+        int j = (initialCount - (count + 1));
+        final String correctAnswer = questions[(j * 6) + 5];
         TextView answerView = (TextView) findViewById(R.id.correctanswer);
         answerView.setText(correctAnswer);
         if (correct) {
@@ -31,7 +31,7 @@ public class AnswerPage extends ActionBarActivity {
         }
         final int newTotal = total;
         TextView questionView = (TextView) findViewById(R.id.correct);
-        questionView.setText("you have " + total + " out of " + questions[questions.length -1] + "correct.");
+        questionView.setText("you have " + total + " out of " + questions[questions.length -1] + " correct.");
 
         Button next = (Button) findViewById(R.id.nextFinish);
         if(count == 0) {
@@ -40,13 +40,24 @@ public class AnswerPage extends ActionBarActivity {
                 @Override
                 public void onClick(View v) {
                     Intent questionContents = new Intent(AnswerPage.this, QuizDroid.class);
-                    questionContents.putExtra("questions", questions);
-                    questionContents.putExtra("count", count);
-                    questionContents.putExtra("total", )
+                    questionContents.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(questionContents);
                 }
             });
         } else {
             next.setText("Next");
+            next.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent questionContents = new Intent(AnswerPage.this, QuestionPage.class);
+                    questionContents.putExtra("questions", questions);
+                    questionContents.putExtra("count", count);
+                    questionContents.putExtra("total", newTotal);
+                    questionContents.putExtra("initialCount", initialCount);
+                    startActivity(questionContents);
+                    finish();
+                }
+            });
         }
 
     }
