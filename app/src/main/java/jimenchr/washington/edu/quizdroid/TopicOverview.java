@@ -4,14 +4,24 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 
 public class TopicOverview extends ActionBarActivity {
-
+    public String desc;
+    public String[] questions;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_topic_overview);
+        Bundle extras = getIntent().getExtras();
+        desc = extras.getString("desc");
+        questions = extras.getStringArray("questions");
+        TextView description = (TextView) findViewById(R.id.description);
+        description.setText(desc);
+
+
+
     }
 
 
