@@ -1,9 +1,13 @@
 package jimenchr.washington.edu.quizdroid;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
 
 
 public class AnswerPage extends ActionBarActivity {
@@ -12,6 +16,39 @@ public class AnswerPage extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_answer_page);
+        Bundle extras = getIntent().getExtras();
+        final String[] questions = extras.getStringArray("questions");
+        final int count = extras.getInt("count");
+        final int initialCount = extras.getInt("initialCount");
+        int total = extras.getInt("total");
+        boolean correct = extras.getBoolean("correct");
+        int j = initialCount - count + 1;
+        final String correctAnswer = questions[(j * 4) + 5];
+        TextView answerView = (TextView) findViewById(R.id.correctanswer);
+        answerView.setText(correctAnswer);
+        if (correct) {
+            total++;
+        }
+        final int newTotal = total;
+        TextView questionView = (TextView) findViewById(R.id.correct);
+        questionView.setText("you have " + total + " out of " + questions[questions.length -1] + "correct.");
+
+        Button next = (Button) findViewById(R.id.nextFinish);
+        if(count == 0) {
+            next.setText("Finish");
+            next.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent questionContents = new Intent(AnswerPage.this, QuizDroid.class);
+                    questionContents.putExtra("questions", questions);
+                    questionContents.putExtra("count", count);
+                    questionContents.putExtra("total", )
+                }
+            });
+        } else {
+            next.setText("Next");
+        }
+
     }
 
 
