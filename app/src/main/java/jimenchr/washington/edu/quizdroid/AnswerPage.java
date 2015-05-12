@@ -39,7 +39,7 @@ public class AnswerPage extends ActionBarActivity {
             next.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent questionContents = new Intent(AnswerPage.this, QuizDroid.class);
+                    Intent questionContents = new Intent(AnswerPage.this, QuizDroidActivity.class);
                     questionContents.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(questionContents);
                 }
@@ -49,7 +49,7 @@ public class AnswerPage extends ActionBarActivity {
             next.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent questionContents = new Intent(AnswerPage.this, QuestionPage.class);
+                    Intent questionContents = new Intent(AnswerPage.this, QuestionPageActivity.class);
                     questionContents.putExtra("questions", questions);
                     questionContents.putExtra("count", count);
                     questionContents.putExtra("total", newTotal);

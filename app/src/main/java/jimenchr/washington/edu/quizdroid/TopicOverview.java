@@ -17,14 +17,16 @@ public class TopicOverview extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_topic_overview);
+
         Bundle extras = getIntent().getExtras();
         desc = extras.getString("desc");
         questions = extras.getStringArray("questions");
+
         TextView description = (TextView) findViewById(R.id.description);
         description.setText(desc);
         TextView countView = (TextView) findViewById(R.id.questioncount);
         countView.setText(questions[questions.length-1] + " questions");
-        final Intent questionContents = new Intent(TopicOverview.this, QuestionPage.class);
+        final Intent questionContents = new Intent(TopicOverview.this, QuestionPageActivity.class);
         questionContents.putExtra("questions", questions);
         questionContents.putExtra("count",Integer.parseInt(questions[questions.length-1]));
         questionContents.putExtra("initialCount",Integer.parseInt(questions[questions.length-1]));

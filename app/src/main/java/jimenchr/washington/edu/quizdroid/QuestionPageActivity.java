@@ -12,7 +12,7 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 
 
-public class QuestionPage extends ActionBarActivity {
+public class QuestionPageActivity extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +54,7 @@ public class QuestionPage extends ActionBarActivity {
         Button submit = (Button) findViewById(R.id.submit);
 
 
-        final Intent questionContents = new Intent(QuestionPage.this, AnswerPage.class);
+        final Intent questionContents = new Intent(QuestionPageActivity.this, AnswerPage.class);
         questionContents.putExtra("questions", questions);
         questionContents.putExtra("count",count);
         questionContents.putExtra("initialCount",initialCount);
