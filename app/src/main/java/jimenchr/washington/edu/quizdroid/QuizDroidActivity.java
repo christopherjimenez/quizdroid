@@ -9,7 +9,7 @@ import android.view.View;
 import android.widget.TextView;
 
 
-public class QuizDroid extends ActionBarActivity {
+public class QuizDroidActivity extends ActionBarActivity {
     public String mathDesc = "Try your hand at some basic math questions.";
     public String[] math ={"4 + 4?","8","3","5","7","8","2 * 7?","14","9","13","turtle","14","6 / 2?","3","2","1","6","3","6 % 4?","2","1","3","4","2","4"};
     public String physicsDesc = "Are you einstein?";
@@ -28,7 +28,7 @@ public class QuizDroid extends ActionBarActivity {
         final TextView mathView = (TextView) findViewById(R.id.textView2);
         final TextView physicsView = (TextView) findViewById(R.id.textView3);
         final TextView marvelView = (TextView) findViewById(R.id.textView4);
-        final Intent questionCategory = new Intent(QuizDroid.this, TopicOverview.class);
+        final Intent questionCategory = new Intent(QuizDroidActivity.this, GameActivity.class);
 
         View.OnClickListener click = new View.OnClickListener() {
             @Override
