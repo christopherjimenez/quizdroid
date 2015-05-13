@@ -17,18 +17,6 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".TopicOverview"
-            android:label="@string/title_activity_topic_overview" >
-        </activity>
-        <activity
-            android:name=".QuestionPageActivity"
-            android:label="@string/title_activity_question_page" >
-        </activity>
-        <activity
-            android:name=".AnswerPage"
-            android:label="@string/title_activity_answer_page" >
-        </activity>
-        <activity
             android:name=".GameActivity"
             android:label="@string/title_activity_game" >
         </activity>

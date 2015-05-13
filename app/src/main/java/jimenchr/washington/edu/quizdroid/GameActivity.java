@@ -37,7 +37,40 @@ public class GameActivity extends ActionBarActivity {
 
     }
 
-    
+    public void loadQuestionFragment(int correct, int initialCount, int count) {
+        FragmentManager fm = getFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+
+        Bundle questionBundle = new Bundle();
+
+        questionBundle.putStringArray("questions", questions);
+        questionBundle.putInt("correct", correct);
+        questionBundle.putInt("initialCount", initialCount);
+        questionBundle.putInt("count", count);
+
+        QuestionFragment qf = new QuestionFragment();
+        qf.setArguments(questionBundle);
+
+        ft.replace(R.id.fragment_container, qf);
+        ft.commit();
+    }
+
+    public void loadAnswerFragment(String correctAnswer, int correct, int initialCount, int count) {
+        FragmentManager fm = getFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+
+        Bundle questionBundle = new Bundle();
+        questionBundle.putString("correctAnswer", correctAnswer);
+        questionBundle.putInt("correct", correct);
+        questionBundle.putInt("initialCount", initialCount);
+        questionBundle.putInt("count", count);
+
+        AnswerFragment af = new AnswerFragment();
+        af.setArguments(questionBundle);
+
+        ft.replace(R.id.fragment_container, af);
+        ft.commit();
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
