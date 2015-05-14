@@ -18,9 +18,7 @@ public class OverviewFragment extends Fragment {
 
     private Activity hostActivity;
     private String desc;
-    private String[] questions;
-    private int initialCount;
-
+    private int questionCount;
 
     public OverviewFragment() {
         // Required empty public constructor
@@ -31,8 +29,7 @@ public class OverviewFragment extends Fragment {
 
         if(getArguments() != null) {
             desc = getArguments().getString("desc");
-            questions = getArguments().getStringArray("questions");
-            initialCount = Integer.parseInt(questions[questions.length-1]);
+            questionCount = getArguments().getInt("questionCount");
         }
     }
 
@@ -44,7 +41,7 @@ public class OverviewFragment extends Fragment {
         TextView description = (TextView) rootView.findViewById(R.id.description);
         description.setText(desc);
         TextView countView = (TextView) rootView.findViewById(R.id.questioncount);
-        countView.setText(questions[questions.length-1] + " questions");
+        countView.setText(questionCount + " questions");
 
         Button begin = (Button) rootView.findViewById(R.id.begin);
 
@@ -52,7 +49,7 @@ public class OverviewFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 if(hostActivity instanceof GameActivity) {
-                    ((GameActivity) hostActivity).loadQuestionFragment(0,initialCount,initialCount);
+                    ((GameActivity) hostActivity).loadQuestionFragment(0,questionCount,questionCount);
                 }
             }
         });

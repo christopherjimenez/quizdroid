@@ -18,7 +18,7 @@ import android.widget.TextView;
  */
 public class QuestionFragment extends Fragment {
 
-    String[] questions;
+    Quiz quiz;
     int correct;
     int initialCount;
     int count;
@@ -33,7 +33,7 @@ public class QuestionFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         if(getArguments() != null) {
-            questions  = getArguments().getStringArray("questions");
+            quiz = (Quiz) getArguments().getSerializable("question");
             correct = getArguments().getInt("correct");
             initialCount = getArguments().getInt("initialCount");
             count = getArguments().getInt("count");
@@ -54,16 +54,15 @@ public class QuestionFragment extends Fragment {
         final Button submit = (Button) rootView.findViewById(R.id.submit);
 
         int j = (initialCount - count);
-        question.setText(questions[(j * 6) + 0]);
-        String radio1Question = questions[(j * 6) + 1];
-        radio1.setText(radio1Question);
-        String radio2Question = questions[(j * 6) + 2];
-        radio2.setText(radio2Question);
-        String radio3Question = questions[(j * 6) + 3];
-        radio3.setText(radio3Question);
-        String radio4Question = questions[(j * 6) + 4];
-        radio4.setText(radio4Question);
-        final String correctAnswer = questions[(j * 6) + 5];
+        question.setText(quiz.getQuestion());
+        String[] answers = quiz.getAnswers();
+
+        radio1.setText(answers[0]);
+        radio2.setText(answers[1]);
+        radio3.setText(answers[2]);
+        radio4.setText(answers[3]);
+
+        final String correctAnswer = quiz.getCorrectAnswerString();
         count--;
 
         rg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
