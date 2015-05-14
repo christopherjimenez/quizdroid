@@ -6,52 +6,49 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 
 public class QuizDroidActivity extends ActionBarActivity {
-    public String mathDesc = "Try your hand at some basic math questions.";
-    public String[] math ={"4 + 4?","8","3","5","7","8","2 * 7?","14","9","13","turtle","14","6 / 2?","3","2","1","6","3","6 % 4?","2","1","3","4","2","4"};
-    public String physicsDesc = "Are you einstein?";
-    public String[] physics ={"how much empty space in an atom?","99.9%","10%","5%","80%","99.9%",
-            "will a feather and a bowling ball fall at the same speed in a vacuum, assuming there is gravity?","yes","no","maybe","so","yes",
-            "a person who studies physics is called?","smart ass","physicist","nerd","einstein","physicist","3"};
-    public String marvelDesc = "Let's be honest, Captain America is the coolest";
-    public String[] marvel ={"how did captain america gain his abilities?","super soldier program","nuclear accident","nazi soldier experiment","spider bite","super soldier program",
-            "what is captain america's real name? ","Steve Rogers","Seth Rogan","Will Smith","Peter Parker","Steve Rogers",
-            "who was not an original member of the avengers?","The Hulk","Thor","Ant-Man","Iron Man","The Hulk","3"};
+    List<String> titles;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quiz_droid);
-        final TextView mathView = (TextView) findViewById(R.id.textView2);
-        final TextView physicsView = (TextView) findViewById(R.id.textView3);
-        final TextView marvelView = (TextView) findViewById(R.id.textView4);
-        final Intent questionCategory = new Intent(QuizDroidActivity.this, GameActivity.class);
 
-        View.OnClickListener click = new View.OnClickListener() {
+        QuizApp app = (QuizApp) getApplication();
+        final Map<String, Topic> topics = app.getAllTopics();
+
+        titles = new ArrayList<String>();
+
+        for(String key: topics.keySet()) {
+            titles.add(topics.get(key).getTitle());
+        }
+
+        ListView topicList = (ListView) findViewById(R.id.categoryList);
+
+        populateListView(topicList,titles);
+
+        topicList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onClick(View v) {
-                if (v.equals(mathView)) {
-                    questionCategory.putExtra("desc",mathDesc);
-                    questionCategory.putExtra("questions",math);
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String key = titles.get(position);
+                Topic topic = topics.get(key);
 
-                } else if (v.equals(physicsView)) {
-                    questionCategory.putExtra("desc",physicsDesc);
-                    questionCategory.putExtra("questions",physics);
-
-                } else if(v.equals(marvelView)) {
-                    questionCategory.putExtra("desc",marvelDesc);
-                    questionCategory.putExtra("questions",marvel);
-                }
-                startActivity(questionCategory);
+                Intent startQuiz = new Intent(QuizDroidActivity.this, GameActivity.class);
+                startQuiz.putExtra("topic", topic);
+                startActivity(startQuiz);
             }
-        };
+        });
 
-        mathView.setOnClickListener(click);
-        physicsView.setOnClickListener(click);
-        marvelView.setOnClickListener(click);
     }
 
 
@@ -75,5 +72,11 @@ public class QuizDroidActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void populateListView(ListView v, List<String> titles) {
+        ArrayAdapter<String> categoryAdapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_list_item_1, titles);
+        v.setAdapter(categoryAdapter);
     }
 }

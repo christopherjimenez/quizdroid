@@ -7,10 +7,11 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import java.util.List;
+
 
 public class GameActivity extends ActionBarActivity {
-    private String desc;
-    private String[] questions;
+    private Topic topic;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,15 +19,17 @@ public class GameActivity extends ActionBarActivity {
         setContentView(R.layout.activity_game);
 
         Bundle extras = getIntent().getExtras();
-        desc = extras.getString("desc");
-        questions = extras.getStringArray("questions");
+        topic = (Topic) extras.getSerializable("topic");
+
+        String desc = topic.getDescription();
+        int questionCount = topic.questionCount();
 
         FragmentManager fm = getFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
 
         Bundle questionBundle = new Bundle();
         questionBundle.putString("desc", desc);
-        questionBundle.putStringArray("questions", questions);
+        questionBundle.putInt("questionCount", questionCount);
 
         OverviewFragment of = new OverviewFragment();
         of.setArguments(questionBundle);
@@ -41,9 +44,11 @@ public class GameActivity extends ActionBarActivity {
         FragmentManager fm = getFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
 
+        List<Quiz> questions = topic.getQuizQuestions();
+
         Bundle questionBundle = new Bundle();
 
-        questionBundle.putStringArray("questions", questions);
+        questionBundle.putSerializable("question", questions.get(initialCount - count));
         questionBundle.putInt("correct", correct);
         questionBundle.putInt("initialCount", initialCount);
         questionBundle.putInt("count", count);
