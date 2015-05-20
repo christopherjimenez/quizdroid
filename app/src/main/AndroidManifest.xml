@@ -3,11 +3,11 @@
     package="jimenchr.washington.edu.quizdroid" >
 
     <application
+        android:name=".QuizApp"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme"
-        android:name=".QuizApp">
+        android:theme="@style/AppTheme" >
         <activity
             android:name=".QuizDroidActivity"
             android:label="@string/app_name" >
@@ -20,6 +20,10 @@
         <activity
             android:name=".GameActivity"
             android:label="@string/title_activity_game" >
+        </activity>
+        <activity
+            android:name=".QuizDroidPreferences"
+            android:label="@string/title_activity_quiz_droid_preferences" >
         </activity>
     </application>
 

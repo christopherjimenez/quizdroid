@@ -1,6 +1,8 @@
 package jimenchr.washington.edu.quizdroid;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -18,6 +20,9 @@ import java.util.Map;
 
 public class QuizDroidActivity extends ActionBarActivity {
     List<String> titles;
+    private static final int SELECTED_SETTINGS = 1;
+    private String url;
+    private int minutes;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +54,19 @@ public class QuizDroidActivity extends ActionBarActivity {
             }
         });
 
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode == SELECTED_SETTINGS) {
+            SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+            url = sharedPreferences.getString("location", "http://tednewardsandbox.site44.com/questions.json");
+            minutes = sharedPreferences.getInt("minutes", 15);
+
+            QuizApp.getInstance().startBroadcasting(minutes, url);
+        }
     }
 
 
