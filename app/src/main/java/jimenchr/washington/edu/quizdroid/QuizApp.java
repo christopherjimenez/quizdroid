@@ -24,6 +24,7 @@ public class QuizApp extends Application {
     private static QuizApp instance = null;
     private String url;
     private int minutes;
+    private boolean alarm;
     private AlarmManager am;
     private PendingIntent pi;
 
@@ -41,10 +42,12 @@ public class QuizApp extends Application {
     public void onCreate() {
         super.onCreate();
         Log.i("QuizApp", "Quiz app is running");
+
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         url = sharedPreferences.getString("location", "http://tednewardsandbox.site44.com/questions.json");
-        minutes = sharedPreferences.getInt("minutes", 15);
+        minutes = Integer.parseInt(sharedPreferences.getString("minutes", "15"));
         am = (AlarmManager) getSystemService(ALARM_SERVICE);
+        alarm = false;
 
         BroadcastReceiver alarmReciever = new BroadcastReceiver() {
             @Override
@@ -77,8 +80,11 @@ public class QuizApp extends Application {
 
     public void startBroadcasting(int minutes, String url) {
         int interval = minutes * 60000;
-
-        am.setRepeating(AlarmManager.RTC, System.currentTimeMillis(), interval, pi);
+        if (alarm) {
+            killAlarm();
+        }
+        alarm = true;
+        am.setRepeating(AlarmManager.RTC, System.currentTimeMillis() - interval, interval, pi);
     }
 
     private String readJSONFile(InputStream is) throws IOException {
@@ -89,6 +95,13 @@ public class QuizApp extends Application {
 
         return new String(buffer, "UTF-8");
     }
+
+    public void killAlarm() {
+        am.cancel(pi);
+        pi.cancel();
+        alarm = false;
+    }
+
 
     public static QuizApp getInstance() {
         return instance;

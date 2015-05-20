@@ -63,7 +63,7 @@ public class QuizDroidActivity extends ActionBarActivity {
         if(requestCode == SELECTED_SETTINGS) {
             SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
             url = sharedPreferences.getString("location", "http://tednewardsandbox.site44.com/questions.json");
-            minutes = sharedPreferences.getInt("minutes", 15);
+            minutes = Integer.parseInt(sharedPreferences.getString("minutes", "15"));
 
             QuizApp.getInstance().startBroadcasting(minutes, url);
         }
@@ -77,24 +77,35 @@ public class QuizDroidActivity extends ActionBarActivity {
         return true;
     }
 
+    private void openPreferences() {
+        Intent prefs = new Intent(getApplicationContext(), QuizDroidPreferences.class);
+        startActivityForResult(prefs, SELECTED_SETTINGS);
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        switch(id) {
+            case R.id.actionPreferences:
+                openPreferences();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
-
-        return super.onOptionsItemSelected(item);
     }
 
     public void populateListView(ListView v, List<String> titles) {
         ArrayAdapter<String> categoryAdapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_list_item_1, titles);
         v.setAdapter(categoryAdapter);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        QuizApp.getInstance().killAlarm();
     }
 }
